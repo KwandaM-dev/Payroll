@@ -1,8 +1,10 @@
 package za.ac.cput.entity;
 
+import java.util.Objects;
+
 public class Employee {
 
-    private int employeeId;
+    private String employeeId;
     private String employeeName;
     private String email;
     private String address;
@@ -16,7 +18,20 @@ public class Employee {
 
     }
 
-    public int getEmployeeId(){
+    private Employee(Builder builder){
+        this.employeeId = builder.employeeId;
+        this.employeeName = builder.employeeName;
+        this.email = builder.email;
+        this.address = builder.address;
+        this.gender = builder.gender;
+        this.occupation = builder.occupation;
+        this.department = builder.department;
+        this.salary = builder.salary;
+
+    }
+
+
+    public String getEmployeeId(){
         return employeeId;
     }
 
@@ -62,12 +77,21 @@ public class Employee {
                 '}';
     }
 
-    public void equals(){
+    @Override
+    public boolean equals(Object o) {
+        if(this == o)  return true;
+        if(!(o instanceof Employee))  return false;
+        Employee employee = (Employee) o;
+        return employeeId == employee.employeeId;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId);
     }
 
     public static class Builder{
-        private int employeeId;
+        private String employeeId;
         private String employeeName;
         private String email;
         private String address;
@@ -76,7 +100,7 @@ public class Employee {
         private String department;
         private double salary;
 
-        public Builder setEmployeeId(int employeeId){
+        public Builder setEmployeeId(String employeeId){
             this.employeeId = employeeId;
             return this;
         }
@@ -116,8 +140,7 @@ public class Employee {
             return this;
         }
 
-        public Employee.Builder copy(){
-            Employee employee = new Employee();
+        public Employee.Builder copy(Employee employee){
             employee.employeeId = employeeId;
             employee.employeeName = employeeName;
             employee.email = email;
